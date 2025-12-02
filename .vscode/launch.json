@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Launch Program.cs",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${fileDirname}/bin/Debug/net10.0/${fileDirnameBasename}.dll",
+            "args": [],
+            "cwd": "${fileDirname}",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        }
+    ]
+}
