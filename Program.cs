@@ -1,4 +1,3 @@
-﻿
 var lines = File.ReadAllLines(@"./input.txt");
 
 var dial = new Dial(99, 50);
