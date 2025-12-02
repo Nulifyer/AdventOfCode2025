@@ -38,28 +38,41 @@ Console.WriteLine($"Sum: {sum_invalid_ids}");
 
 bool HasRepeatChunk(string num_str)
 {
-    string last_chunk = null;
-    foreach (var chunk in SplitIntoChunks(num_str))
+    string? last_chunk, chunk;
+
+    int saw_same_chunk = 0;
+    int expected_repeat; 
+
+    for (int sub_len = 1; sub_len <= num_str.Length / 2; ++sub_len)
     {
-        if (last_chunk != null && last_chunk == chunk) return true;
-        last_chunk = chunk;
+        last_chunk = null;
+        saw_same_chunk = 1;
+        
+        expected_repeat = num_str.Length / sub_len;
+        if (sub_len * expected_repeat != num_str.Length) continue; // if not divided equally, skip
+
+        for (int i = 0; i + sub_len <= num_str.Length; i += sub_len)
+        {
+            chunk = num_str.Substring(i, sub_len);
+
+            if (last_chunk == null)
+            {
+                last_chunk = chunk;
+                continue;
+            }
+            else if (last_chunk == chunk)
+            {
+                ++saw_same_chunk;
+
+                if (saw_same_chunk == expected_repeat)
+                    return true;
+            }
+            else
+            {
+                break; // non matching chunk size
+            }
+        }
     }
+
     return false;
-}
-
-IEnumerable<string> SplitIntoChunks(string num_str)
-{
-    // for (int sub_len = 1; sub_len <= num_str.Length / 2; ++sub_len)
-    // {
-    //     for (int i = 0; i + sub_len <= num_str.Length; i += sub_len)
-    //     {
-    //         yield return num_str.Substring(i, sub_len);
-    //     }
-    // }
-
-    int half_len = num_str.Length / 2;
-    return [
-        num_str.Substring(0, half_len),
-        num_str.Substring(half_len),
-    ];
 }
