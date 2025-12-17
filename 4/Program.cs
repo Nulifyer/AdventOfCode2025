@@ -1,4 +1,4 @@
-﻿var lines = File.ReadLines(@"./example.txt");
+﻿var lines = File.ReadLines(@"./input.txt");
 
 int line_num = 0;
 int line_len = 0;
@@ -12,18 +12,38 @@ foreach (var line in lines)
 }
 
 var paper_arr = paper.ToArray();
-var move_arr = paper_arr.Select(x => false).ToArray();
+bool[] move_arr;
 paper.Clear();
 paper = null;
 
-int moveable = CountMoveable();
-Console.WriteLine($"can move: {moveable}");
+int total_moveable = 0;
 
-PrintPaper();
+while (true)
+{
+    int moveable = CountMoveable();
+    total_moveable += moveable;
+    if (moveable == 0) break;
+    PrintPaper();
+    Console.WriteLine($"can move: {moveable}");
+    RemoveMoveable();
+}
+
+Console.WriteLine($"can move total: {total_moveable}");
+
 ;
+
+void RemoveMoveable()
+{
+    for (int i = 0; i < paper_arr.Length; i++)
+    {
+        if (move_arr[i] == true) paper_arr[i] = false;
+    }
+}
 
 int CountMoveable()
 {
+    move_arr = Enumerable.Repeat(false, paper_arr.Length).ToArray();
+
     int moveable = 0;
     int neighbors = 0;
 
@@ -37,12 +57,12 @@ int CountMoveable()
             neighbors = 0;
 
             if (CheckIndex(CordsToIndex(x - 1, y - 1))) ++neighbors;
-            if (CheckIndex(CordsToIndex(x - 1, y)))     ++neighbors;
+            if (CheckIndex(CordsToIndex(x - 1, y))) ++neighbors;
             if (CheckIndex(CordsToIndex(x - 1, y + 1))) ++neighbors;
-            if (CheckIndex(CordsToIndex(x, y - 1)))     ++neighbors;
-            if (CheckIndex(CordsToIndex(x, y + 1)))     ++neighbors;
+            if (CheckIndex(CordsToIndex(x, y - 1))) ++neighbors;
+            if (CheckIndex(CordsToIndex(x, y + 1))) ++neighbors;
             if (CheckIndex(CordsToIndex(x + 1, y - 1))) ++neighbors;
-            if (CheckIndex(CordsToIndex(x + 1, y)))     ++neighbors;
+            if (CheckIndex(CordsToIndex(x + 1, y))) ++neighbors;
             if (CheckIndex(CordsToIndex(x + 1, y + 1))) ++neighbors;
 
             if (neighbors < 4)
