@@ -10,7 +10,18 @@
             "args": [],
             "cwd": "${fileDirname}",
             "console": "internalConsole",
-            "stopAtEntry": false
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Developement",
+            },
+            "logging": {
+                "moduleLoad": false,
+                "diagnosticsLog": {
+                    "protocolMessages": false
+                },
+                "programOutput": true,
+                "exceptions": true
+            }
         }
     ]
 }
